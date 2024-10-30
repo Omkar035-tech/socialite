@@ -1,5 +1,5 @@
 {
     "editor.mouseWheelZoom": true,
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.formatOnType": false
 }

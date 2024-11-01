@@ -49,5 +49,5 @@ model Post {
 
   createdAt DateTime @default(now())
 
-  @@map("post")
+  @@map("posts")
 }

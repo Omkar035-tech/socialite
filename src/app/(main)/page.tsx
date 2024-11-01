@@ -1,13 +1,19 @@
+import PostEditor from '@/components/posts/editor/PostEditor'
+import TrendsSidebar from '@/components/TrendsSidebar'
 import React from 'react'
+import ForYouFeed from './ForYouFeed'
 
-const page = () => {
+const Home = async () => {
+
   return (
-    <main className='h-[200vh] w-full bg-red-50'>
-      <div className='w-full'>
-        front page
+    <main className='flex gap-5 w-full min-w-0'>
+      <div className='w-full min-w-0 space-y-5'>
+        <PostEditor />
+        <ForYouFeed />
       </div>
+      <TrendsSidebar />
     </main>
   )
 }
 
-export default page
+export default Home

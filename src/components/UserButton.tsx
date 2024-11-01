@@ -8,6 +8,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { logout } from "@/app/(auth)/actions"
 import { useTheme } from "next-themes"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface UserButtonProps {
   className?: string
@@ -17,6 +18,8 @@ const UserButton = ({ className }: UserButtonProps) => {
   const { user } = useSession();
 
   const { theme, setTheme } = useTheme();
+
+  const queryClient = useQueryClient();
 
   return (
     <DropdownMenu>
@@ -46,23 +49,24 @@ const UserButton = ({ className }: UserButtonProps) => {
               <DropdownMenuItem onClick={() => setTheme("system")}>
                 <Monitor className="mr-2 size-4" />
                 System Default
-                {theme ==="system" && <Check className="ms-2 size-4"/>}
-              </DropdownMenuItem> 
+                {theme === "system" && <Check className="ms-2 size-4" />}
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("light")}>
                 <Sun className="mr-2 size-4" />
                 Light
-                {theme ==="light" && <Check className="ms-2 size-4"/>}
+                {theme === "light" && <Check className="ms-2 size-4" />}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("dark")}>
                 <Moon className="mr-2 size-4" />
                 Dark
-                {theme ==="dark" && <Check className="ms-2 size-4"/>}
+                {theme === "dark" && <Check className="ms-2 size-4" />}
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => {
+          queryClient.clear();
           logout();
         }}>
           <LogOutIcon className="mr-2 size-4" />

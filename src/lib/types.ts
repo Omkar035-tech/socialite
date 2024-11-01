@@ -16,3 +16,8 @@ export const postDataIncules = {
 export type PostData = Prisma.PostGetPayload<{
   include: typeof postDataIncules;
 }>;
+
+export interface PostPage {
+  posts: PostData[];
+  nextCursor: string | null;
+}

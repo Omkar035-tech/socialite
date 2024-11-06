@@ -8,7 +8,11 @@ import { PostPage } from "@/lib/types"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 
-const ForYouFeed = () => {
+interface UserPostsProps {
+    userId: string
+}
+
+const UserPosts = ({ userId }: UserPostsProps) => {
     const {
         data,
         fetchNextPage,
@@ -17,10 +21,10 @@ const ForYouFeed = () => {
         isFetchingNextPage,
         status,
     } = useInfiniteQuery({
-        queryKey: ["post-feed", "for-you"],
+        queryKey: ["post-feed", "user-posts", userId],
         //queryFn: kyInstance.get("/api/posts/selffeed").json<PostData[]>,
         queryFn: ({ pageParam }) => kyInstance.get(
-            "/api/posts/selffeed",
+            `/api/users/${userId}/posts`,
             pageParam ? { searchParams: { cursor: pageParam } } : {}
         ).json<PostPage>(),
         initialPageParam: null as string | null,
@@ -34,7 +38,7 @@ const ForYouFeed = () => {
 
     if (status === "success" && !posts.length && !hasNextPage) {
         return <p className="text-center text-muted-foreground">
-            No one posted anything Yet :-(
+            This user has&apos;t Posted anything yet.
         </p>
     }
 
@@ -54,4 +58,4 @@ const ForYouFeed = () => {
     </InfiniteScrollContainer>
 }
 
-export default ForYouFeed
+export default UserPosts

@@ -3,7 +3,10 @@ import prisma from "@/lib/prisma";
 import { getPostDataInculde, PostPage } from "@/lib/types";
 import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params: { userId } }: { params: { userId: string } }
+) {
   try {
     const cursor = req.nextUrl.searchParams.get("cursor") || undefined;
 
@@ -14,6 +17,7 @@ export async function GET(req: NextRequest) {
       return Response.json({ error: "Unauthozied" }, { status: 401 });
     }
     const posts = await prisma.post.findMany({
+      where: { userId },
       include: getPostDataInculde(user.id),
       orderBy: { createdAt: "desc" },
       take: pagesize + 1,

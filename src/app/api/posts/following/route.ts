@@ -14,10 +14,19 @@ export async function GET(req: NextRequest) {
       return Response.json({ error: "Unauthozied" }, { status: 401 });
     }
     const posts = await prisma.post.findMany({
-      include: getPostDataInculde(user.id),
+      where: {
+        user: {
+          followers: {
+            some: {
+              followerId: user.id,
+            },
+          },
+        },
+      },
       orderBy: { createdAt: "desc" },
       take: pagesize + 1,
       cursor: cursor ? { id: cursor } : undefined,
+      include: getPostDataInculde(user.id),
     });
 
     const nextCursor = posts.length > pagesize ? posts[pagesize].id : null;

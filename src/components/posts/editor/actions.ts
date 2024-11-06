@@ -2,7 +2,7 @@
 
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
-import { postDataIncules } from "@/lib/types";
+import { getPostDataInculde } from "@/lib/types";
 import { createPostSchema } from "@/lib/validation";
 
 const submitPost = async (input: string) => {
@@ -17,7 +17,7 @@ const submitPost = async (input: string) => {
       content,
       userId: user.id,
     },
-    include: postDataIncules,
+    include: getPostDataInculde(user.id),
   });
 
   return newPosts;

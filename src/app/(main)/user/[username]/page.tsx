@@ -34,7 +34,11 @@ const getUser = cache(async (username: string, loggedInUserId: string) => {
     return user;
 })
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+    params
+}: {
+    params: { username: string }
+}): Promise<Metadata> {
     const { user: loggedInUser } = await validateRequest();
     if (!loggedInUser) return {}
     const user = await getUser(params.username, loggedInUser.id);
@@ -44,7 +48,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({
+    params
+}: {
+    params: { username: string }
+}) {
     const { user: loggedInUser } = await validateRequest();
     if (!loggedInUser) {
         return (

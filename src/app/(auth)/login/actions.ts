@@ -24,7 +24,7 @@ export async function login(
 
     if (!existingUser || !existingUser.passwordHash) {
       return {
-        error: "Incoorect username or password",
+        error: "Incorrect username or password",
       };
     }
     const validatePassword = await verify(existingUser.passwordHash, password, {

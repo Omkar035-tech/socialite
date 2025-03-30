@@ -3,11 +3,14 @@ import prisma from "@/lib/prisma";
 import { FollowerInfo } from "@/lib/types";
 
 export async function GET(
-  req: Request,
-  { params: { userId } }: { params: { userId: string } }
+  // req: Request,
+  // { params: { userId } }: { params: { userId: string } }
+  request: Request,
+  { params }: { params: { userId: string } }
 ) {
   try {
     const { user: loggedInUser } = await validateRequest();
+    const { userId } = params;
 
     if (!loggedInUser) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });

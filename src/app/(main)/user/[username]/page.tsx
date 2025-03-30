@@ -12,8 +12,11 @@ import { notFound } from "next/navigation"
 import { cache } from "react"
 import UserPosts from "./UserPosts"
 
-interface PageProps {
-    params: { username: string }
+// Updated interface to match Next.js 13+ expectations
+type PageProps = {
+    params: {
+        username: string
+    }
 }
 
 const getUser = cache(async (username: string, loggedInUserId: string) => {
@@ -31,18 +34,17 @@ const getUser = cache(async (username: string, loggedInUserId: string) => {
     return user;
 })
 
-export async function generateMetadata({ params: { username } }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { user: loggedInUser } = await validateRequest();
     if (!loggedInUser) return {}
-    const user = await getUser(username, loggedInUser.id);
+    const user = await getUser(params.username, loggedInUser.id);
 
     return {
         title: `${user.displayName} (@${user.username})`,
-
     }
 }
 
-export default async function Page({ params: { username } }: PageProps) {
+export default async function Page({ params }: PageProps) {
     const { user: loggedInUser } = await validateRequest();
     if (!loggedInUser) {
         return (
@@ -50,7 +52,7 @@ export default async function Page({ params: { username } }: PageProps) {
         )
     }
 
-    const user = await getUser(username, loggedInUser.id);
+    const user = await getUser(params.username, loggedInUser.id);
     return (
         <main className="flex w-full min-w-0 gap-5">
             <div className="w-full min-w-0 space-y-5">
